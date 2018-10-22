@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee">
+
+    <context-param>
+        <param-name>h2.database.path</param-name>
+        <param-value>/Users/Mik/DDBB/h2</param-value>
+    </context-param>
+    <listener>
+        <listener-class>utils.HttpSessionListener</listener-class>
+    </listener>
+
+</web-app>
