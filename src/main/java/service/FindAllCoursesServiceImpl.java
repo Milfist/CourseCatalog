@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FindAllCoursesServiceImpl implements FindAllCoursesService {
 
@@ -21,13 +22,12 @@ public class FindAllCoursesServiceImpl implements FindAllCoursesService {
     }
 
     @Override
-    public List<Course> findAllCourse() {
-        List<Course> courses = new ArrayList<>();
+    public Optional<List<Course>> findAllCourse() {
         try {
-            courses = findAllCoursesDao.findAllCourses();
+            return Optional.of(findAllCoursesDao.findAllCourses());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return courses;
+        return Optional.empty();
     }
 }

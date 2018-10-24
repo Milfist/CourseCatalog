@@ -18,7 +18,7 @@ public class JdbcBaseDao {
         return getPreparedStatement(query).executeQuery();
     }
 
-    private PreparedStatement getPreparedStatement(String query) throws SQLException {
+    public PreparedStatement getPreparedStatement(String query) throws SQLException {
         return connection.prepareStatement(query);
     }
 
