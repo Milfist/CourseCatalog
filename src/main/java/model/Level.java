@@ -2,9 +2,9 @@ package model;
 
 public enum Level {
 
-    BASIC("Básico"),
-    MEDIUM("Medio"),
-    ADVANCED("Avanzado");
+    BASIC("Basic"),
+    MEDIUM("Medium"),
+    ADVANCED("Advanced");
 
     private String level;
 
@@ -14,4 +14,6 @@ public enum Level {
     public String getLevel() {
         return level;
     }
+
+
 }

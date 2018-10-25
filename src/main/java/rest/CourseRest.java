@@ -35,7 +35,7 @@ public class CourseRest extends HttpServlet {
 //        out.println("<h1>" + message + "</h1>");
 
 //        request.setAttribute("course", new Course("Java", 100, true, Level.ADVANCED));
-//        request.getRequestDispatcher("/WEB-INF/hello.jsp").forward(request, response);
+//        request.getRequestDispatcher("/WEB-INF/courses.jsp").forward(request, response);
 
 //        response.setContentType("application/json;charset=UTF-8");
 
