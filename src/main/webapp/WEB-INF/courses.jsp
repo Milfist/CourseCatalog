@@ -16,7 +16,6 @@
             <tr>
               <th scope="col">Titulo</th>
               <th scope="col">Duraci&oacute;n</th>
-              <th scope="col">Activo</th>
               <th scope="col">Nivel</th>
             </tr>
           </thead>
@@ -25,13 +24,12 @@
                 <tr>
                   <th scope="row">${course.title}</th>
                   <td>${course.numberHours}</td>
-                  <td>${course.active}</td>
                   <td>${course.level}</td>
                 </tr>
             </c:forEach>
           </tbody>
         </table>
-        <form action="/courses?param=newCourseView" method="POST">
+        <form action="/courses?view=newCourseView" method="POST">
             <div class="mx-auto" style="width: 200px;">
                 <button type="submit" class="btn btn-primary">Add course</button>
             </div>

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class CreateNewCourseDaoImpl implements CreateNewCourseDao {
 
-    private static final String CREATE_NEW_COURSE = "INSERT INTO COURSES VALUES (?,?,?,?)";
+    private static final String CREATE_NEW_COURSE = "INSERT INTO COURSE (TITLE, DURATION, IS_ACTIVE, COURSE_LEVEL)  VALUES (?,?,?,?)";
 
     private JdbcBaseDao jdbcBaseDao;
 
@@ -21,7 +21,7 @@ public class CreateNewCourseDaoImpl implements CreateNewCourseDao {
         preparedStatement.setString(1, course.getTitle());
         preparedStatement.setInt(2, course.getNumberHours());
         preparedStatement.setBoolean(3, course.getActive());
-        preparedStatement.setString(4, course.getLevel().getLevel());
+        preparedStatement.setString(4, course.getLevel().name());
         return preparedStatement.executeUpdate();
     }
 }

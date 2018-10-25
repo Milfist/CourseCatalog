@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import model.Course;
+
+import java.util.List;
 
 public class JsonConverter {
 
@@ -14,12 +17,12 @@ public class JsonConverter {
         gson = new GsonBuilder().create();
     }
 
-    public <T extends Object> String convertToJson(T object) {
+    public String convertToJson(List<Course> courses) {
 
-//        JsonArray jarray = gson.toJsonTree(object).getAsJsonArray();
-//        JsonObject jsonObject = new JsonObject();
-//        jsonObject.add("cities", jarray);
+        JsonArray jarray = gson.toJsonTree(courses).getAsJsonArray();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("courses", jarray);
 
-        return gson.toJson(object);
+        return jsonObject.toString();
     }
 }

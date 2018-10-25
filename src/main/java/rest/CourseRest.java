@@ -3,6 +3,9 @@ package rest;
 
 import model.Course;
 import model.Level;
+import service.FindAllCoursesService;
+import service.FindAllCoursesServiceImpl;
+import servlet.BaseServlet;
 import utils.JsonConverter;
 
 import javax.servlet.ServletException;
@@ -12,37 +15,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @WebServlet(name="course",  urlPatterns = "/course")
-public class CourseRest extends HttpServlet {
-    private String message;
-
-    /*@Override
-    public void init() throws ServletException {
-        // Do required initialization
-        message = "Hello World";
-    }*/
+public class CourseRest extends HttpServlet implements BaseServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-//        // Set response content type
+
+        FindAllCoursesService findAllCoursesService = getFindAllCoursesServiceInstance(request);
+
         response.setContentType("application/json");
-//
-//        // Actual logic goes here.
-//        PrintWriter out = response.getWriter();
-//        out.println("<h1>" + message + "</h1>");
-
-//        request.setAttribute("course", new Course("Java", 100, true, Level.ADVANCED));
-//        request.getRequestDispatcher("/WEB-INF/courses.jsp").forward(request, response);
-
-//        response.setContentType("application/json;charset=UTF-8");
 
         ServletOutputStream out = response.getOutputStream();
 
         JsonConverter converter = new JsonConverter();
-        String output = converter.convertToJson(new Course("Java", 100, true, Level.ADVANCED));
+        String output = converter.convertToJson(findAllCoursesService.findAllCourse().orElse(new ArrayList<>()));
 
         out.print(output);
 
@@ -50,8 +42,7 @@ public class CourseRest extends HttpServlet {
 
     }
 
-    /*@Override
-    public void destroy() {
-        // do nothing.
-    }*/
+    private FindAllCoursesService getFindAllCoursesServiceInstance(HttpServletRequest request) {
+        return new FindAllCoursesServiceImpl(getConnection(request));
+    }
 }

@@ -30,7 +30,6 @@
             </div>
             <div class="mx-auto" style="width: 270px;">
                 <button type="submit" class="btn btn-primary">Add course</button>
-                <button type="" class="btn btn-secondary">Go back</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
             </div>
         </form>

@@ -10,7 +10,11 @@ import java.util.List;
 
 public class FindAllCoursesDaoImpl implements FindAllCoursesDao {
 
-    private static final String SELECT_ALL_FROM_COURSE = "SELECT TITLE, DURATION, IS_ACTIVE, COURSE_LEVEL FROM COURSE";
+    private static final StringBuilder SELECT_ALL_FROM_COURSE =  new StringBuilder("SELECT ")
+            .append("TITLE, DURATION, IS_ACTIVE, COURSE_LEVEL ")
+            .append("FROM COURSE ")
+            .append("WHERE IS_ACTIVE = TRUE ")
+            .append("ORDER BY TITLE DESC");
 
     private JdbcBaseDao jdbcBaseDao;
 
@@ -22,7 +26,7 @@ public class FindAllCoursesDaoImpl implements FindAllCoursesDao {
     @Override
     public List<Course> findAllCourses() throws SQLException {
 
-        ResultSet resultSet = jdbcBaseDao.getResulset(SELECT_ALL_FROM_COURSE);
+        ResultSet resultSet = jdbcBaseDao.getResulset(SELECT_ALL_FROM_COURSE.toString());
         List<Course> courses = new ArrayList<>();
 
         while (resultSet.next()) {
