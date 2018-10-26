@@ -1,0 +1,4 @@
+request.setAttribute("courses", findCoursesService.findObjectInDaoCall().orElse(new ArrayList<>()));
+request.getRequestDispatcher("/WEB-INF/courses.jsp").forward(request, response);
+
+request.getRequestDispatcher("/WEB-INF/newCourse.jsp").forward(request, response);

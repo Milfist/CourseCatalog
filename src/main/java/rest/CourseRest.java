@@ -3,11 +3,14 @@ package rest;
 
 import com.google.gson.Gson;
 import model.Course;
-import service.*;
+import service.FindObjectInDaoCallService;
+import service.CreateNewObjectInDaoCallService;
+import service.AbstractServiceFactory;
 import service.impl.CreateNewCourseServiceImpl;
 import service.impl.FindActiveCoursesServiceImpl;
 import servlet.BaseServlet;
 import utils.JsonConverter;
+import views.SimpleResponseView;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -65,9 +68,9 @@ public class CourseRest extends HttpServlet implements BaseServlet, AbstractServ
                                               ServletOutputStream servletOutputStream)
             throws IOException {
         if (numberCoursesAdded.isPresent() && numberCoursesAdded.get().equals(1)) {
-            servletOutputStream.print("{ \"operation\":{\"result\":\"OK\"}}");
+            servletOutputStream.print(SimpleResponseView.getOkResponse().getHtml());
         } else {
-            servletOutputStream.print("{ \"operation\":{\"result\":\"KO\"}}");
+            servletOutputStream.print(SimpleResponseView.getKoResponse().getHtml());
         }
     }
 }

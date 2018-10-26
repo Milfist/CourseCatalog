@@ -3,9 +3,14 @@ package servlet;
 
 import model.Course;
 import model.Level;
-import service.*;
+import service.FindObjectInDaoCallService;
+import service.CreateNewObjectInDaoCallService;
+import service.AbstractServiceFactory;
 import service.impl.CreateNewCourseServiceImpl;
 import service.impl.FindActiveCoursesServiceImpl;
+import views.CoursesView;
+import views.NewCourseView;
+import views.View;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name="courseServlet",  urlPatterns = "/courses")
 public class CourseServlet extends HttpServlet implements BaseServlet, AbstractServiceFactory {
@@ -22,15 +29,17 @@ public class CourseServlet extends HttpServlet implements BaseServlet, AbstractS
     @SuppressWarnings("unchecked")
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FindObjectInDaoCallService findCoursesService = newFindObjectService(request);
-        request.setAttribute("courses", findCoursesService.findObjectInDaoCall().orElse(new ArrayList<>()));
-        request.getRequestDispatcher("/WEB-INF/courses.jsp").forward(request, response);
+
+        View coursesView = new CoursesView((List<Course>) findCoursesService.findObjectInDaoCall()
+                .orElse(new ArrayList<>()));
+        writeViewInResponse(response, coursesView);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (checkParameterView(request)) {
-            request.getRequestDispatcher("/WEB-INF/newCourse.jsp").forward(request, response);
+            writeViewInResponse(response, new NewCourseView());
         } else {
             CreateNewObjectInDaoCallService createNewObjectInDaoCallService = newCreateNewObjectService(request);
             createNewObjectInDaoCallService.createNewObjectInDaoCall(createNewCourseInstanceWithRequestParameters(request));
@@ -66,5 +75,11 @@ public class CourseServlet extends HttpServlet implements BaseServlet, AbstractS
 
     private boolean checkParameterView(HttpServletRequest request) {
         return null != request.getParameter("view") && request.getParameter("view").equals("newCourseView");
+    }
+
+    private void writeViewInResponse(HttpServletResponse response, View view) throws IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println(view.getHtml());
     }
 }
