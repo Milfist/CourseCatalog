@@ -1,5 +1,7 @@
-package dao;
+package dao.impl;
 
+import dao.FindActiveCoursesDao;
+import dao.JdbcBaseDao;
 import model.Course;
 import model.Level;
 
@@ -8,13 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindAllCoursesDaoImpl implements FindAllCoursesDao {
+public class FindAllCoursesDaoImpl implements FindActiveCoursesDao {
 
     private static final StringBuilder SELECT_ALL_FROM_COURSE =  new StringBuilder("SELECT ")
             .append("TITLE, DURATION, IS_ACTIVE, COURSE_LEVEL ")
             .append("FROM COURSE ")
             .append("WHERE IS_ACTIVE = TRUE ")
-            .append("ORDER BY TITLE DESC");
+            .append("ORDER BY TITLE ASC");
 
     private JdbcBaseDao jdbcBaseDao;
 
@@ -24,9 +26,9 @@ public class FindAllCoursesDaoImpl implements FindAllCoursesDao {
 
 
     @Override
-    public List<Course> findAllCourses() throws SQLException {
+    public List<Course> findActiveCourses() throws SQLException {
 
-        ResultSet resultSet = jdbcBaseDao.getResulset(SELECT_ALL_FROM_COURSE.toString());
+        ResultSet resultSet = jdbcBaseDao.getResultset(SELECT_ALL_FROM_COURSE.toString());
         List<Course> courses = new ArrayList<>();
 
         while (resultSet.next()) {

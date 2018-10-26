@@ -7,6 +7,9 @@ public class Course {
     private Boolean active;
     private Level level;
 
+    public Course() {
+    }
+
     public Course(String title, Integer numberHours, Boolean active, Level level) {
         this.title = title;
         this.numberHours = numberHours;

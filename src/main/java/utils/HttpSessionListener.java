@@ -16,8 +16,8 @@ public class HttpSessionListener implements ServletContextListener, javax.servle
 
     private final static String DB_FILE_NAME = "courseDB";
 
-    String url;
-    Connection globalConnection;
+    private String url;
+    private Connection globalConnection;
 
     public void contextInitialized(ServletContextEvent sce) {
 
@@ -36,10 +36,6 @@ public class HttpSessionListener implements ServletContextListener, javax.servle
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public Connection openConnection() throws SQLException {
-        return DriverManager.getConnection(url, "sa", "sa");
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
@@ -68,13 +64,13 @@ public class HttpSessionListener implements ServletContextListener, javax.servle
     }
 
     private void initDb() throws SQLException, IOException {
-        Connection connection = null;
-        try {
-            connection = openConnection();
+        try (Connection connection = openConnection()) {
             File script = new File(getClass().getResource("/data.sql").getFile());
             RunScript.execute(connection, new FileReader(script));
-        } finally {
-            if (connection != null) connection.close();
         }
+    }
+
+    private Connection openConnection() throws SQLException {
+        return DriverManager.getConnection(url, "sa", "sa");
     }
 }

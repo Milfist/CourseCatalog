@@ -3,10 +3,9 @@ package servlet;
 
 import model.Course;
 import model.Level;
-import service.CreateNewCourseService;
-import service.CreateNewCourseServiceImpl;
-import service.FindAllCoursesService;
-import service.FindAllCoursesServiceImpl;
+import service.*;
+import service.impl.CreateNewCourseServiceImpl;
+import service.impl.FindActiveCoursesServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,33 +13,38 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name="courseServlet",  urlPatterns = "/courses")
-public class CourseServlet extends HttpServlet implements BaseServlet {
+public class CourseServlet extends HttpServlet implements BaseServlet, AbstractServiceFactory {
 
     @Override
+    @SuppressWarnings("unchecked")
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FindAllCoursesService findAllCoursesService = getFindAllCoursesServiceInstance(request);
-        request.setAttribute("courses", findAllCoursesService.findAllCourse().isPresent());
+        FindObjectInDaoCallService findCoursesService = newFindObjectService(request);
+        request.setAttribute("courses", findCoursesService.findObjectInDaoCall().orElse(new ArrayList<>()));
         request.getRequestDispatcher("/WEB-INF/courses.jsp").forward(request, response);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (checkParameterView(request)) {
             request.getRequestDispatcher("/WEB-INF/newCourse.jsp").forward(request, response);
         } else {
-            CreateNewCourseService createNewCourseService = getCreateNewCourseServiceInstance(request);
-            createNewCourseService.createNewCourse(createNewCourseInstanceWithRequestParameters(request));
+            CreateNewObjectInDaoCallService createNewObjectInDaoCallService = newCreateNewObjectService(request);
+            createNewObjectInDaoCallService.createNewObjectInDaoCall(createNewCourseInstanceWithRequestParameters(request));
             doGet(request, response);
         }
     }
 
-    private FindAllCoursesService getFindAllCoursesServiceInstance(HttpServletRequest request) {
-        return new FindAllCoursesServiceImpl(getConnection(request));
+    @Override
+    public FindObjectInDaoCallService newFindObjectService(HttpServletRequest request) {
+        return new FindActiveCoursesServiceImpl(getConnection(request));
     }
 
-    private CreateNewCourseService getCreateNewCourseServiceInstance(HttpServletRequest request) {
+    @Override
+    public CreateNewObjectInDaoCallService newCreateNewObjectService(HttpServletRequest request) {
         return new CreateNewCourseServiceImpl(getConnection(request));
     }
 
