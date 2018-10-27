@@ -23,11 +23,12 @@ public class CreateNewCourseDaoImpl implements CreateNewCourseDao {
 
     @Override
     public int createNewCourse(Course course) throws SQLException{
-        PreparedStatement preparedStatement = jdbcBaseDao.getPreparedStatement(CREATE_NEW_COURSE.toString());
-        preparedStatement.setString(1, course.getTitle());
-        preparedStatement.setInt(2, course.getNumberHours());
-        preparedStatement.setBoolean(3, course.getActive());
-        preparedStatement.setString(4, course.getLevel().name());
-        return preparedStatement.executeUpdate();
+        try(PreparedStatement preparedStatement = jdbcBaseDao.getPreparedStatement(CREATE_NEW_COURSE.toString())) {
+            preparedStatement.setString(1, course.getTitle());
+            preparedStatement.setInt(2, course.getNumberHours());
+            preparedStatement.setBoolean(3, course.getActive());
+            preparedStatement.setString(4, course.getLevel().name());
+            return preparedStatement.executeUpdate();
+        }
     }
 }

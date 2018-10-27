@@ -28,19 +28,20 @@ public class FindAllCoursesDaoImpl implements FindActiveCoursesDao {
     @Override
     public List<Course> findActiveCourses() throws SQLException {
 
-        ResultSet resultSet = jdbcBaseDao.getResultSet(SELECT_ALL_FROM_COURSE.toString());
-        List<Course> courses = new ArrayList<>();
+        try(ResultSet resultSet = jdbcBaseDao.getResultSet(SELECT_ALL_FROM_COURSE.toString())) {
+            List<Course> courses = new ArrayList<>();
 
-        while (resultSet.next()) {
-            Course course = new Course(
-                    resultSet.getString("TITLE"),
-                    resultSet.getInt("DURATION"),
-                    resultSet.getBoolean("IS_ACTIVE"),
-                    Level.valueOf(resultSet.getString("COURSE_LEVEL")));
+            while (resultSet.next()) {
+                Course course = new Course(
+                        resultSet.getString("TITLE"),
+                        resultSet.getInt("DURATION"),
+                        resultSet.getBoolean("IS_ACTIVE"),
+                        Level.valueOf(resultSet.getString("COURSE_LEVEL")));
 
-            courses.add(course);
+                courses.add(course);
+            }
+
+            return courses;
         }
-
-        return courses;
     }
 }
