@@ -28,7 +28,7 @@ public class FindAllCoursesDaoImpl implements FindActiveCoursesDao {
     @Override
     public List<Course> findActiveCourses() throws SQLException {
 
-        ResultSet resultSet = jdbcBaseDao.getResultset(SELECT_ALL_FROM_COURSE.toString());
+        ResultSet resultSet = jdbcBaseDao.getResultSet(SELECT_ALL_FROM_COURSE.toString());
         List<Course> courses = new ArrayList<>();
 
         while (resultSet.next()) {

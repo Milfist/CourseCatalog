@@ -9,7 +9,6 @@ import java.sql.SQLException;
 
 public class JdbcBaseDaoImpl implements JdbcBaseDao {
 
-    private PreparedStatement preparedStatement;
     private Connection connection;
 
     public JdbcBaseDaoImpl(Connection connection) {
@@ -17,7 +16,7 @@ public class JdbcBaseDaoImpl implements JdbcBaseDao {
     }
 
     @Override
-    public ResultSet getResultset(String query) throws SQLException {
+    public ResultSet getResultSet(String query) throws SQLException {
         return getPreparedStatement(query).executeQuery();
     }
 
@@ -25,8 +24,4 @@ public class JdbcBaseDaoImpl implements JdbcBaseDao {
     public PreparedStatement getPreparedStatement(String query) throws SQLException {
         return connection.prepareStatement(query);
     }
-
-
-
-
 }
