@@ -19,6 +19,7 @@ public class HttpSessionListener implements ServletContextListener, javax.servle
     private String url;
     private Connection globalConnection;
 
+    @Override
     public void contextInitialized(ServletContextEvent sce) {
 
         String spath = sce.getServletContext().getInitParameter("h2.database.path");
@@ -38,6 +39,7 @@ public class HttpSessionListener implements ServletContextListener, javax.servle
         }
     }
 
+    @Override
     public void contextDestroyed(ServletContextEvent sce) {
         try {
             globalConnection.close();
@@ -46,6 +48,7 @@ public class HttpSessionListener implements ServletContextListener, javax.servle
         }
     }
 
+    @Override
     public void sessionCreated(HttpSessionEvent se) {
         try {
             se.getSession().setAttribute("h2.connection", openConnection());
@@ -54,6 +57,7 @@ public class HttpSessionListener implements ServletContextListener, javax.servle
         }
     }
 
+    @Override
     public void sessionDestroyed(HttpSessionEvent se) {
         try {
             Connection con = (Connection)se.getSession().getAttribute("h2.connection");
