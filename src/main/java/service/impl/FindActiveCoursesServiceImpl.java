@@ -15,8 +15,8 @@ public class FindActiveCoursesServiceImpl implements FindObjectInDaoCallService<
 
     private FindActiveCoursesDao findAllCoursesDao;
 
-    public FindActiveCoursesServiceImpl(Connection connection) {
-        this.findAllCoursesDao = new FindAllCoursesDaoImpl(new JdbcBaseDaoImpl(connection));
+    public FindActiveCoursesServiceImpl() {
+        this.findAllCoursesDao = new FindAllCoursesDaoImpl();
     }
 
     @Override

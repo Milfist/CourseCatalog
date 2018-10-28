@@ -31,7 +31,8 @@ public class CourseRest extends HttpServlet implements BaseServlet, AbstractServ
     @SuppressWarnings("unchecked")
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        FindObjectInDaoCallService findCoursesService = newFindObjectService(request);
+        extractConnectionFromHttpSession(request);
+        FindObjectInDaoCallService findCoursesService = newFindObjectService();
         response.setContentType("application/json");
         ServletOutputStream servletOutputStream = response.getOutputStream();
         JsonConverter converter = new JsonConverter();
@@ -42,20 +43,21 @@ public class CourseRest extends HttpServlet implements BaseServlet, AbstractServ
     @Override
     @SuppressWarnings("unchecked")
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CreateNewObjectInDaoCallService createNewObjectInDaoCallService = newCreateNewObjectService(request);
+        extractConnectionFromHttpSession(request);
+        CreateNewObjectInDaoCallService createNewObjectInDaoCallService = newCreateNewObjectService();
         response.setContentType("application/json");
         ServletOutputStream servletOutputStream = response.getOutputStream();
         printResultByOptionalInteger(createNewObjectInDaoCallService.createNewObjectInDaoCall(getCourseFromRequest(request)), servletOutputStream);
     }
 
     @Override
-    public FindObjectInDaoCallService newFindObjectService(HttpServletRequest request) {
-        return new FindActiveCoursesServiceImpl(getConnection(request));
+    public FindObjectInDaoCallService newFindObjectService() {
+        return new FindActiveCoursesServiceImpl();
     }
 
     @Override
-    public CreateNewObjectInDaoCallService newCreateNewObjectService(HttpServletRequest request) {
-        return new CreateNewCourseServiceImpl(getConnection(request));
+    public CreateNewObjectInDaoCallService newCreateNewObjectService() {
+        return new CreateNewCourseServiceImpl();
     }
 
     private Course getCourseFromRequest(HttpServletRequest request) throws IOException{

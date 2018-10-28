@@ -3,9 +3,9 @@ package servlet;
 
 import model.Course;
 import model.Level;
-import service.FindObjectInDaoCallService;
-import service.CreateNewObjectInDaoCallService;
 import service.AbstractServiceFactory;
+import service.CreateNewObjectInDaoCallService;
+import service.FindObjectInDaoCallService;
 import service.impl.CreateNewCourseServiceImpl;
 import service.impl.FindActiveCoursesServiceImpl;
 import views.CoursesView;
@@ -28,8 +28,8 @@ public class CourseServlet extends HttpServlet implements BaseServlet, AbstractS
     @Override
     @SuppressWarnings("unchecked")
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FindObjectInDaoCallService findCoursesService = newFindObjectService(request);
-
+        extractConnectionFromHttpSession(request);
+        FindObjectInDaoCallService findCoursesService = newFindObjectService();
         View coursesView = new CoursesView((List<Course>) findCoursesService.findObjectInDaoCall()
                 .orElse(new ArrayList<>()));
         writeViewInResponse(response, coursesView);
@@ -41,20 +41,21 @@ public class CourseServlet extends HttpServlet implements BaseServlet, AbstractS
         if (checkParameterView(request)) {
             writeViewInResponse(response, new NewCourseView());
         } else {
-            CreateNewObjectInDaoCallService createNewObjectInDaoCallService = newCreateNewObjectService(request);
+            extractConnectionFromHttpSession(request);
+            CreateNewObjectInDaoCallService createNewObjectInDaoCallService = newCreateNewObjectService();
             createNewObjectInDaoCallService.createNewObjectInDaoCall(createNewCourseInstanceWithRequestParameters(request));
             doGet(request, response);
         }
     }
 
     @Override
-    public FindObjectInDaoCallService newFindObjectService(HttpServletRequest request) {
-        return new FindActiveCoursesServiceImpl(getConnection(request));
+    public FindObjectInDaoCallService newFindObjectService() {
+        return new FindActiveCoursesServiceImpl();
     }
 
     @Override
-    public CreateNewObjectInDaoCallService newCreateNewObjectService(HttpServletRequest request) {
-        return new CreateNewCourseServiceImpl(getConnection(request));
+    public CreateNewObjectInDaoCallService newCreateNewObjectService() {
+        return new CreateNewCourseServiceImpl();
     }
 
     private Course createNewCourseInstanceWithRequestParameters(HttpServletRequest request) {

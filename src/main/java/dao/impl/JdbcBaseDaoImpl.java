@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.JdbcBaseDao;
+import utils.ConnectionSingleton;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,8 +12,8 @@ public class JdbcBaseDaoImpl implements JdbcBaseDao {
 
     private Connection connection;
 
-    public JdbcBaseDaoImpl(Connection connection) {
-        this.connection = connection;
+    public JdbcBaseDaoImpl() {
+        this.connection = ConnectionSingleton.getConecction();
     }
 
     @Override

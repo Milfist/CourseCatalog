@@ -17,8 +17,8 @@ public class CreateNewCourseDaoImpl implements CreateNewCourseDao {
 
     private JdbcBaseDao jdbcBaseDao;
 
-    public CreateNewCourseDaoImpl(JdbcBaseDao jdbcBaseDao) {
-        this.jdbcBaseDao = jdbcBaseDao;
+    public CreateNewCourseDaoImpl() {
+        this.jdbcBaseDao = new JdbcBaseDaoImpl();
     }
 
     @Override

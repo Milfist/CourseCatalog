@@ -14,8 +14,8 @@ public class CreateNewCourseServiceImpl implements CreateNewObjectInDaoCallServi
 
     private CreateNewCourseDao createNewCourseDao;
 
-    public CreateNewCourseServiceImpl(Connection connection) {
-        this.createNewCourseDao = new CreateNewCourseDaoImpl(new JdbcBaseDaoImpl(connection));
+    public CreateNewCourseServiceImpl() {
+        this.createNewCourseDao = new CreateNewCourseDaoImpl();
     }
 
     @Override

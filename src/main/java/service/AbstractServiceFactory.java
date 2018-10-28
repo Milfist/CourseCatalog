@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface AbstractServiceFactory {
 
-    FindObjectInDaoCallService newFindObjectService(HttpServletRequest request);
+    FindObjectInDaoCallService newFindObjectService();
 
-    CreateNewObjectInDaoCallService newCreateNewObjectService(HttpServletRequest request);
+    CreateNewObjectInDaoCallService newCreateNewObjectService();
 }

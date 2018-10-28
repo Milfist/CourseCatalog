@@ -20,8 +20,8 @@ public class FindAllCoursesDaoImpl implements FindActiveCoursesDao {
 
     private JdbcBaseDao jdbcBaseDao;
 
-    public FindAllCoursesDaoImpl(JdbcBaseDao jdbcBaseDao) {
-        this.jdbcBaseDao = jdbcBaseDao;
+    public FindAllCoursesDaoImpl() {
+        this.jdbcBaseDao = new JdbcBaseDaoImpl();
     }
 
 
