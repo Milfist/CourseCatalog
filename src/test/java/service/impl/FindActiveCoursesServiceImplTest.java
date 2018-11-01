@@ -1,6 +1,5 @@
 package service.impl;
 
-import dao.impl.CreateNewCourseDaoImpl;
 import dao.impl.FindAllCoursesDaoImpl;
 import model.Course;
 import model.Level;
@@ -10,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.sql.SQLException;
@@ -36,15 +34,15 @@ public class FindActiveCoursesServiceImplTest {
     public void shouldBeOkInCreateNewCourse() throws SQLException {
         when(findAllCoursesDao.findActiveCourses()).thenReturn(getMockCourse());
         Optional<List<Course>> result = service.findObjectInDaoCall();
-        Assert.assertEquals(getMockCourse().get(0), result.get().get(0));
+        Assert.assertEquals(getMockCourse().get(0).getTitle(), result.get().get(0).getTitle());
     }
 
-//    @Test
-//    public void shouldBeKoInCreateNewCourse() throws SQLException {
-//        when(createNewCourseDao.createNewCourse(Mockito.any(Course.class))).thenThrow(new SQLException());
-//        Optional<Integer> result = service.createNewObjectInDaoCall(getMockCourse());
-//        Assert.assertEquals(Optional.empty(), result);
-//    }
+    @Test
+    public void shouldBeKoInCreateNewCourse() throws SQLException {
+        when(findAllCoursesDao.findActiveCourses()).thenThrow(new SQLException());
+        Optional<List<Course>> result = service.findObjectInDaoCall();
+        Assert.assertEquals(Optional.empty(), result);
+    }
 
     private List<Course> getMockCourse() {
         List<Course> courses = new ArrayList<>();

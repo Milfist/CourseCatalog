@@ -67,8 +67,7 @@ public class CourseRest extends HttpServlet implements BaseServlet, AbstractServ
     }
 
     private void printResultByOptionalInteger(Optional<Integer> numberCoursesAdded,
-                                              ServletOutputStream servletOutputStream)
-            throws IOException {
+                                              ServletOutputStream servletOutputStream) throws IOException {
         if (numberCoursesAdded.isPresent() && numberCoursesAdded.get().equals(1)) {
             servletOutputStream.print(SimpleResponseView.getOkResponse().getHtml());
         } else {
