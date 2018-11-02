@@ -66,14 +66,15 @@ public class CourseRestTest {
 
     @Test
     public void shouldBeReturnFindActiveCoursesServiceTest(){
-        Mockito.doReturn(findActiveCoursesService).when(courseRest).newFindObjectService();
+        when(courseRest.newFindObjectService()).thenReturn(findActiveCoursesService);
+
         FindObjectInDaoCallService service = courseRest.newFindObjectService();
         Assert.assertTrue(service instanceof FindActiveCoursesServiceImpl);
     }
 
     @Test
     public void shouldBeReturnCreateNewCourseServiceTest(){
-        Mockito.doReturn(createNewCourseService).when(courseRest).newCreateNewObjectService();
+        when(courseRest.newCreateNewObjectService()).thenReturn(createNewCourseService);
         CreateNewObjectInDaoCallService service = courseRest.newCreateNewObjectService();
         Assert.assertTrue(service instanceof CreateNewCourseServiceImpl);
     }

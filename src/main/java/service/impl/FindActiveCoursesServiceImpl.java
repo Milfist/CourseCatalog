@@ -13,11 +13,7 @@ import java.util.Optional;
 
 public class FindActiveCoursesServiceImpl implements FindObjectInDaoCallService<Course> {
 
-    private FindActiveCoursesDao findAllCoursesDao;
-
-    public FindActiveCoursesServiceImpl() {
-        this.findAllCoursesDao = new FindAllCoursesDaoImpl();
-    }
+    private FindActiveCoursesDao findAllCoursesDao = new FindAllCoursesDaoImpl();
 
     @Override
     public Optional<List<Course>> findObjectInDaoCall() {
