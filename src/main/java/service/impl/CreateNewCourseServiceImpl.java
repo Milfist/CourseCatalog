@@ -12,11 +12,7 @@ import java.util.Optional;
 
 public class CreateNewCourseServiceImpl implements CreateNewObjectInDaoCallService<Course> {
 
-    private CreateNewCourseDao createNewCourseDao;
-
-    public CreateNewCourseServiceImpl() {
-        this.createNewCourseDao = new CreateNewCourseDaoImpl();
-    }
+    private CreateNewCourseDao createNewCourseDao = new CreateNewCourseDaoImpl();
 
     @Override
     public Optional<Integer> createNewObjectInDaoCall(Course object) {

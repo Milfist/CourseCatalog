@@ -44,7 +44,7 @@ public class CreateNewCourseServiceImplTest  {
     }
 
     private Course getMockCourse() {
-        return new Course("Titulo", 10, true, Level.BASIC);
+        return new Course("Titulo", 10, true, Level.ADVANCED);
     }
 
 

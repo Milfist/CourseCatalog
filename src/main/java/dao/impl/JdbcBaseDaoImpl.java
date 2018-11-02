@@ -10,11 +10,7 @@ import java.sql.SQLException;
 
 public class JdbcBaseDaoImpl implements JdbcBaseDao {
 
-    private Connection connection;
-
-    public JdbcBaseDaoImpl() {
-        this.connection = ConnectionSingleton.getConecction();
-    }
+    private Connection connection = ConnectionSingleton.getConecction();
 
     @Override
     public ResultSet getResultSet(String query) throws SQLException {

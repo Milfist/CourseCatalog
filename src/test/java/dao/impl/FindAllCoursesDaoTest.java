@@ -69,28 +69,4 @@ public class FindAllCoursesDaoTest {
         when(resultSet.next()).thenThrow(new SQLException());
         findAllCoursesDao.findActiveCourses();
     }
-
-
-//    @Test
-//    public void shouldBeKoInCreateNewCourse() throws SQLException {
-//        when(preparedStatement.executeUpdate()).thenReturn(0);
-//
-//        int result = createNewCourseDao.createNewCourse(getMockCourse());
-//        Assert.assertEquals(0, result);
-//    }
-//
-//    @Test(expected = SQLException.class)
-//    public void shouldBeKoAndThrowExceptionInCreateNewCourse() throws SQLException {
-//        when(preparedStatement.executeUpdate()).thenThrow(new SQLException());
-//        createNewCourseDao.createNewCourse(getMockCourse());
-//    }
-//
-    private List<Course> getMockCourses() {
-        List<Course> courses = new ArrayList<>();
-        Course course = new Course("Title", 10, true, Level.BASIC);
-        courses.add(course);
-        return courses;
-    }
-
-
 }

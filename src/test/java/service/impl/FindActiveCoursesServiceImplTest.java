@@ -46,7 +46,7 @@ public class FindActiveCoursesServiceImplTest {
 
     private List<Course> getMockCourses() {
         List<Course> courses = new ArrayList<>();
-        Course course = new Course("Titulo", 10, true, Level.BASIC);
+        Course course = new Course("Titulo", 10, true, Level.MEDIUM);
         courses.add(course);
         return courses;
     }
