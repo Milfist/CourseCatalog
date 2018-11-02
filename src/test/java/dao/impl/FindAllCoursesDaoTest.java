@@ -13,6 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -39,33 +40,57 @@ public class FindAllCoursesDaoTest {
 
     }
 
-
     @Test
-    public void shouldBeOkInCreateNewCourse() throws SQLException {
-        when(resultSet.next()).thenReturn(true);
-
+    public void shouldBeOkWhenFindCourses() throws SQLException {
+        when(resultSet.next()).thenReturn(true).thenReturn(false);
+        when(resultSet.getString("TITLE")).thenReturn("Title");
+        when(resultSet.getInt("DURATION")).thenReturn(10);
+        when(resultSet.getBoolean("IS_ACTIVE")).thenReturn(true);
+        when(resultSet.getString("COURSE_LEVEL")).thenReturn("BASIC");
         List<Course> result = findAllCoursesDao.findActiveCourses();
-        Assert.assertEquals(1, result);
+        Assert.assertEquals(1, result.size());
     }
 
     @Test
-    public void shouldBeKoInCreateNewCourse() throws SQLException {
-        when(preparedStatement.executeUpdate()).thenReturn(0);
-
-        int result = createNewCourseDao.createNewCourse(getMockCourse());
-        Assert.assertEquals(0, result);
+    public void shouldBeOkWhenFindCoursesWithEmptyList() throws SQLException {
+        when(resultSet.next()).thenReturn(false);
+        List<Course> result = findAllCoursesDao.findActiveCourses();
+        Assert.assertEquals(0, result.size());
     }
 
     @Test(expected = SQLException.class)
-    public void shouldBeKoAndThrowExceptionInCreateNewCourse() throws SQLException {
-        when(preparedStatement.executeUpdate()).thenThrow(new SQLException());
-        createNewCourseDao.createNewCourse(getMockCourse());
+    public void shouldBeKoWhenResultSetThrowSQLException() throws SQLException {
+        when(findAllCoursesDao.findActiveCourses()).thenThrow(new SQLException());
+        findAllCoursesDao.findActiveCourses();
     }
 
-    private Course getMockCourse() {
-        return new Course("Title", 10, true, Level.BASIC);
+    @Test(expected = SQLException.class)
+    public void shouldBeKoWhenFindCoursesThrowSQLException() throws SQLException {
+        when(resultSet.next()).thenThrow(new SQLException());
+        findAllCoursesDao.findActiveCourses();
     }
 
+
+//    @Test
+//    public void shouldBeKoInCreateNewCourse() throws SQLException {
+//        when(preparedStatement.executeUpdate()).thenReturn(0);
+//
+//        int result = createNewCourseDao.createNewCourse(getMockCourse());
+//        Assert.assertEquals(0, result);
+//    }
+//
+//    @Test(expected = SQLException.class)
+//    public void shouldBeKoAndThrowExceptionInCreateNewCourse() throws SQLException {
+//        when(preparedStatement.executeUpdate()).thenThrow(new SQLException());
+//        createNewCourseDao.createNewCourse(getMockCourse());
+//    }
+//
+    private List<Course> getMockCourses() {
+        List<Course> courses = new ArrayList<>();
+        Course course = new Course("Title", 10, true, Level.BASIC);
+        courses.add(course);
+        return courses;
+    }
 
 
 }

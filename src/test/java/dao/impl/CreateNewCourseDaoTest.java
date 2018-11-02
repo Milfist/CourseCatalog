@@ -1,6 +1,5 @@
 package dao.impl;
 
-import dao.JdbcBaseDao;
 import model.Course;
 import model.Level;
 import org.junit.Assert;
@@ -31,7 +30,6 @@ public class CreateNewCourseDaoTest {
 
     @Before
     public void setUp() {
-//        when(new JdbcBaseDaoImpl()).thenReturn(jdbcBaseDao);
         try {
             when(jdbcBaseDao.getPreparedStatement(Mockito.any(String.class))).thenReturn(preparedStatement);
         } catch (SQLException e) {

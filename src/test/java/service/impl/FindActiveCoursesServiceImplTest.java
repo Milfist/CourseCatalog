@@ -32,9 +32,9 @@ public class FindActiveCoursesServiceImplTest {
 
     @Test
     public void shouldBeOkInCreateNewCourse() throws SQLException {
-        when(findAllCoursesDao.findActiveCourses()).thenReturn(getMockCourse());
+        when(findAllCoursesDao.findActiveCourses()).thenReturn(getMockCourses());
         Optional<List<Course>> result = service.findObjectInDaoCall();
-        Assert.assertEquals(getMockCourse().get(0).getTitle(), result.get().get(0).getTitle());
+        Assert.assertEquals(getMockCourses().get(0).getTitle(), result.get().get(0).getTitle());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class FindActiveCoursesServiceImplTest {
         Assert.assertEquals(Optional.empty(), result);
     }
 
-    private List<Course> getMockCourse() {
+    private List<Course> getMockCourses() {
         List<Course> courses = new ArrayList<>();
         Course course = new Course("Titulo", 10, true, Level.BASIC);
         courses.add(course);
