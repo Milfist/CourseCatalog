@@ -60,7 +60,7 @@ public class CourseRest extends HttpServlet implements BaseServlet, AbstractServ
         return new CreateNewCourseServiceImpl();
     }
 
-    private Course getCourseFromRequest(HttpServletRequest request) throws IOException{
+    public Course getCourseFromRequest(HttpServletRequest request) throws IOException{
         BufferedReader reader = request.getReader();
         Gson gson = new Gson();
         return gson.fromJson(reader, Course.class);
