@@ -10,6 +10,7 @@ import service.impl.CreateNewCourseServiceImpl;
 import service.impl.FindActiveCoursesServiceImpl;
 import servlet.BaseServlet;
 import utils.JsonConverter;
+import utils.JsonDeserializer;
 import views.SimpleResponseView;
 
 import javax.servlet.ServletException;
@@ -60,10 +61,13 @@ public class CourseRest extends HttpServlet implements BaseServlet, AbstractServ
         return new CreateNewCourseServiceImpl();
     }
 
-    public Course getCourseFromRequest(HttpServletRequest request) throws IOException{
-        BufferedReader reader = request.getReader();
-        Gson gson = new Gson();
-        return gson.fromJson(reader, Course.class);
+    public JsonDeserializer createJsonDeserializerInstance() {
+        return new JsonDeserializer();
+    }
+
+    private Course getCourseFromRequest(HttpServletRequest request) throws IOException{
+        JsonDeserializer jsonDeserializer = createJsonDeserializerInstance();
+        return  jsonDeserializer.convertToObject(request.getReader());
     }
 
     private void printResultByOptionalInteger(Optional<Integer> numberCoursesAdded,

@@ -3,6 +3,7 @@ package rest;
 import model.Course;
 import model.Level;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -13,6 +14,7 @@ import service.CreateNewObjectInDaoCallService;
 import service.FindObjectInDaoCallService;
 import service.impl.CreateNewCourseServiceImpl;
 import service.impl.FindActiveCoursesServiceImpl;
+import utils.JsonDeserializer;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -34,10 +36,15 @@ public class CourseRestTest {
     @Mock private HttpServletResponse response;
     @Mock private ServletOutputStream servletOutputStream;
     @Mock private BufferedReader bufferedReader;
+    @Mock private JsonDeserializer jsonDeserializer;
 
     @Spy
     private CourseRest courseRest;
 
+    @Before
+    public void setUp() {
+//        when(JsonDeserializer).thenReturn(jsonDeserializer);
+    }
 
     @Test
     public void doGetTest() throws IOException, ServletException {
@@ -57,8 +64,7 @@ public class CourseRestTest {
         Mockito.doReturn(createNewCourseService).when(courseRest).newCreateNewObjectService();
         Mockito.doReturn(Optional.of(1)).when(createNewCourseService).createNewObjectInDaoCall(Mockito.any());
         Mockito.doReturn(servletOutputStream).when(response).getOutputStream();
-//        Mockito.doReturn(bufferedReader).when(request).getReader();
-        Mockito.doReturn(getMockCourse()).when(courseRest).getCourseFromRequest(Mockito.any(HttpServletRequest.class));
+        Mockito.doReturn(jsonDeserializer).when(courseRest).createJsonDeserializerInstance();
 
         courseRest.doPost(request, response);
         verify(courseRest, times(1)).doPost(Mockito.any(HttpServletRequest.class), Mockito.any(HttpServletResponse.class));
@@ -71,8 +77,7 @@ public class CourseRestTest {
         Mockito.doReturn(createNewCourseService).when(courseRest).newCreateNewObjectService();
         Mockito.doReturn(Optional.of(0)).when(createNewCourseService).createNewObjectInDaoCall(Mockito.any());
         Mockito.doReturn(servletOutputStream).when(response).getOutputStream();
-//        Mockito.doReturn(bufferedReader).when(request).getReader();
-        Mockito.doReturn(getMockCourse()).when(courseRest).getCourseFromRequest(Mockito.any(HttpServletRequest.class));
+        Mockito.doReturn(jsonDeserializer).when(courseRest).createJsonDeserializerInstance();
 
         courseRest.doPost(request, response);
         verify(courseRest, times(1)).doPost(Mockito.any(HttpServletRequest.class), Mockito.any(HttpServletResponse.class));
@@ -91,6 +96,13 @@ public class CourseRestTest {
         when(courseRest.newCreateNewObjectService()).thenReturn(createNewCourseService);
         CreateNewObjectInDaoCallService service = courseRest.newCreateNewObjectService();
         Assert.assertTrue(service instanceof CreateNewCourseServiceImpl);
+    }
+
+    @Test
+    public void shouldBeReturnJsonDeserizlizerInstanceTest(){
+        when(courseRest.createJsonDeserializerInstance()).thenReturn(jsonDeserializer);
+        JsonDeserializer jsonDeserializer = courseRest.createJsonDeserializerInstance();
+        Assert.assertTrue(jsonDeserializer instanceof JsonDeserializer);
     }
 
     private Course getMockCourse() {
